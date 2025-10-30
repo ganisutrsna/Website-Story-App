@@ -1,0 +1,11 @@
+APP_URL=<url_aplikasi>
+MAP_SERVICE_API_KEY=<api_key>
+
+== untuk akses aplikasi ==
+akses nya kesini yaa: http://localhost:9001/
+setelah itu anda dapat register akun/login
+
+untuk login bisa pakai akun berikut
+email: bradpitt@gmail.com
+pass: Gani5292
+
