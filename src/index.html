@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <title>Cerita Kita</title>
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/styles/styles.css" />
+</head>
+
+<body>
+
+  <a href="#mainContent" class="skip-to-content">Lewati ke konten utama</a>
+
+  <header>
+    <div class="main-header container">
+      <a class="brand-name" href="#/" aria-label="Beranda Aplikasi Cerita Kita">
+        <i class="fa-solid fa-book-open-reader"></i> Cerita Kita
+      </a>
+
+      <nav id="navigation-drawer" class="navigation-drawer" aria-label="Navigasi utama">
+        <ul id="nav-list" class="nav-list">
+          <li><a href="#/" aria-label="Menu Beranda"><i class="fa-solid fa-house"></i> Beranda</a></li>
+          <li><a href="#/about" aria-label="Menu Tentang"><i class="fa-solid fa-circle-info"></i> Tentang</a></li>
+          <li><a href="#/login" aria-label="Menu Login"><i class="fa-solid fa-user"></i> Login</a></li>
+          <li>
+            <button id="logoutBtn" class="btn-secondary" style="display:none;" aria-label="Keluar dari akun">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+            <button id="notifToggleBtn" class="notif-btn">🔔 Aktifkan Notifikasi</button>
+
+            
+          </li>
+        </ul>
+      </nav>
+
+      <button id="drawer-button" class="drawer-button" aria-label="Buka navigasi">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-content" tabindex="-1"></main>
+
+  <footer class="main-footer">
+    <p>&copy; 2025 Cerita Kita. Semua Hak Dilindungi.</p>
+  </footer>
+</body>
+
+</html>
