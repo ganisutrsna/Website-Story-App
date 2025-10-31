@@ -48,9 +48,9 @@ const HomePresenter = {
     }
   },
 
-  // 🎯 Event klik/enter untuk fokus marker
+  
   _setupCardEvents(listContainer) {
-    // 🧹 Bersihkan semua event listener lama dengan clone listener function
+    
     if (this._cardClickHandler) {
       listContainer.removeEventListener('click', this._cardClickHandler);
       listContainer.removeEventListener('keydown', this._cardKeyHandler);
@@ -87,7 +87,7 @@ const HomePresenter = {
       }
     };
 
-    // Simpan handler agar bisa dilepas nanti
+    
     this._cardClickHandler = (e) => {
       const card = e.target.closest('.story-card');
       if (card) focusStory(card);
@@ -103,7 +103,7 @@ const HomePresenter = {
     listContainer.addEventListener('keydown', this._cardKeyHandler);
   },
 
-  // 🔍 Pencarian cerita
+  
   _setupSearchFeature(searchInput, listContainer, mapContainer) {
     if (!searchInput) return;
 
@@ -138,7 +138,7 @@ const HomePresenter = {
 
   
 
-  // ⚡ Indikator Online/Offline
+  
   _setupOnlineOfflineIndicator() {
     let indicator = document.querySelector('#networkStatus');
     if (!indicator) {

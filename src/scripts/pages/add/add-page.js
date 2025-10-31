@@ -2,7 +2,7 @@ import { addStory } from '../../data/api';
 import CONFIG from '../../config';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import Idb from '../../utils/idb.js'; // 🧩 Tambahan: untuk cache offline
+import Idb from '../../utils/idb.js'; // untuk cache offline
 
 export default class AddPage {
   async render() {
@@ -207,7 +207,7 @@ export default class AddPage {
       feedback.className = 'feedback info';
     });
 
-    // 🟢 Submit handler
+    
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const description = descriptionInput.value.trim();
@@ -238,7 +238,7 @@ form.addEventListener('submit', async (e) => {
       lat,
       lon,
       createdAt: new Date().toISOString(),
-      token: localStorage.getItem('token'),
+      token: localStorage.getItem('token') || '', // jangan undefined
       clientId: crypto.randomUUID(),
     });
 
@@ -246,7 +246,7 @@ form.addEventListener('submit', async (e) => {
       '📦 Cerita disimpan offline dan akan di-sync otomatis saat online.';
     feedback.className = 'feedback warning';
 
-    // 🟢 Daftarkan background sync (jika tersedia)
+    // daftar background sync (jika tersedia)
     if ('serviceWorker' in navigator && 'SyncManager' in window) {
       try {
         const reg = await navigator.serviceWorker.ready;
@@ -268,7 +268,7 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// 🟢 Jangan trigger manual-sync saat online, biarkan SW yang atur
+
 window.addEventListener('online', () => {
   console.log('🌐 Online kembali — SW akan handle sync otomatis.');
 });
@@ -296,7 +296,7 @@ window.addEventListener('online', () => {
     window.addEventListener('beforeunload', stopCamera);
     window.addEventListener('hashchange', stopCamera);
 
-    // // 🟢 Sinkronisasi otomatis ketika kembali online
+    // // sinkronisasi otomatis ketika kembali online
     // window.addEventListener('online', async () => {
     //   const pendingStories = await Idb.getAllPendingStories();
     //   if (pendingStories.length > 0) {

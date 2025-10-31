@@ -1,6 +1,6 @@
 import CONFIG from '../config.js';
 
-// 🔗 Endpoint API
+// Endpoint API
 const ENDPOINTS = {
   REGISTER: `${CONFIG.BASE_URL}/register`,
   LOGIN: `${CONFIG.BASE_URL}/login`,
@@ -8,9 +8,7 @@ const ENDPOINTS = {
   STORY_DETAIL: (id) => `${CONFIG.BASE_URL}/stories/${id}`,
 };
 
-// =======================================
-// 🔧 Helper: Buka IndexedDB
-// =======================================
+
 function openPendingDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('story-app-db', 2);
@@ -36,9 +34,7 @@ async function savePendingStory(story) {
 }
 
 
-// =======================================
-// 👤 Register user
-// =======================================
+
 export async function registerUser({ name, email, password }) {
   try {
     const res = await fetch(ENDPOINTS.REGISTER, {
@@ -55,9 +51,7 @@ export async function registerUser({ name, email, password }) {
   }
 }
 
-// =======================================
-// 🔐 Login user
-// =======================================
+
 export async function loginUser({ email, password }) {
   try {
     const res = await fetch(ENDPOINTS.LOGIN, {
@@ -66,7 +60,7 @@ export async function loginUser({ email, password }) {
       body: JSON.stringify({ email, password }),
     });
 
-    if (!res.ok) throw new Error('Gagal login');
+    if (!res.ok) throw new Error('Gagal login, salah memasukkan username atau password');
     const json = await res.json();
 
     if (json.loginResult?.token) {
@@ -81,9 +75,7 @@ export async function loginUser({ email, password }) {
   }
 }
 
-// =======================================
-// 📖 Ambil semua cerita
-// =======================================
+
 export async function getStories({ withLocation = false } = {}) {
   try {
     const token = localStorage.getItem('token');
@@ -105,9 +97,7 @@ export async function getStories({ withLocation = false } = {}) {
   }
 }
 
-// =======================================
-// 📖 Ambil detail cerita
-// =======================================
+
 export async function getStoryById(id) {
   try {
     const token = localStorage.getItem('token');
@@ -193,7 +183,7 @@ export async function addStory({ description, photoFile, lat, lon }) {
   }
 
 
-  // 🌐 Jika online, langsung kirim ke API
+  // kalo online, langsung kirim ke API
   try {
     const res = await fetch(ENDPOINTS.STORIES, {
       method: 'POST',
@@ -203,9 +193,9 @@ export async function addStory({ description, photoFile, lat, lon }) {
 
     const json = await res.clone().json().catch(() => ({}));
 
-    // 🧠 Deteksi jika respons-nya buatan SW (offline)
+    // kalo respons-nya buatan SW (offline)
     if (json?.message?.includes('Offline mode')) {
-      console.warn('📴 Offline mode terdeteksi, simpan ke IndexedDB...');
+      console.warn('Offline mode terdeteksi, simpan ke IndexedDB...');
       await savePendingStory({ description, photoFile, lat, lon, token });
       return { error: false, message: 'Cerita disimpan offline.' };
     }
@@ -213,7 +203,7 @@ export async function addStory({ description, photoFile, lat, lon }) {
 
     if (!res.ok) throw new Error('Gagal menambah cerita');
 
-    console.log('📤 Cerita berhasil dikirim online:', json);
+    console.log('Cerita berhasil dikirim online:', json);
     return json;
 
   } catch (err) {

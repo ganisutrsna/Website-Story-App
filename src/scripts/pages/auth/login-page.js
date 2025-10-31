@@ -6,13 +6,41 @@ export default class LoginPage {
       <section class="container auth-container">
         <h2>Login</h2>
         <form id="login-form">
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Password" required />
-          <button type="submit" class="submit-btn">Login</button>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Masukkan email kamu" 
+              required 
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Kata Sandi:</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Masukkan kata sandi kamu" 
+              required 
+              aria-required="true"
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            class="submit-btn" 
+            aria-label="Masuk ke akun">
+            Login
+          </button>
         </form>
+
         <div id="login-spinner" class="spinner hidden" aria-hidden="true"></div>
         <p>Belum punya akun? <a href="#/register">Daftar di sini</a></p>
-        <p id="login-message"></p>
+        <p id="login-message" role="alert"></p>
       </section>
     `;
   }
@@ -28,13 +56,11 @@ export default class LoginPage {
       const email = document.querySelector('#email').value;
       const password = document.querySelector('#password').value;
 
-      // tampilkan spinner
       spinner.classList.remove('hidden');
       messageEl.textContent = '';
 
       const result = await loginUser({ email, password });
 
-      // sembunyikan spinner setelah selesai
       spinner.classList.add('hidden');
 
       if (!result.error) {

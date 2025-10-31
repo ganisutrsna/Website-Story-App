@@ -4,6 +4,7 @@ import DetailPage from '../pages/detail/detail-page';
 import AddPage from '../pages/add/add-page';
 import LoginPage from '../pages/auth/login-page';
 import RegisterPage from '../pages/auth/register-page';
+import PendingPage from '../pages/pending/pending-page';
 
 const routes = {
   '/': HomePage,
@@ -13,6 +14,7 @@ const routes = {
   '/register': RegisterPage,
   '/detail/:id': DetailPage,
   '/add': AddPage,
+  '/pending': PendingPage,
 };
 
 export default routes;

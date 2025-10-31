@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-globals */
+
 const CACHE_NAME = 'ceritakita-v6';
 const API_BASE_URL = 'https://story-api.dicoding.dev/v1';
 const STATIC_ASSETS = [
@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
   '/app.bundle.js',
 ];
 
-// ✅ Install – cache semua asset statis
+// install cache semua asset statis
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// ✅ Activate – hapus cache lama
+// hapus cache lama
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) =>
@@ -35,15 +35,16 @@ self.addEventListener('activate', (event) => {
   console.log('✅ SW aktif, tapi tidak memaksa reload');
 });
 
-// ✅ Fetch handler dengan fallback aman
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
   if (request.url.startsWith(API_BASE_URL)) {
-    // Network first untuk API
     event.respondWith(
       fetch(request)
         .then((response) => {
+          // ❗ Hanya cache GET requests
+        if (request.method !== 'GET') return response;
           if (!response || response.status !== 200) return response;
           const clonedResponse = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clonedResponse));
@@ -57,7 +58,7 @@ self.addEventListener('fetch', (event) => {
         })
     );
   } else {
-    // Cache first untuk asset statis
+    // Cache pertamaa untuk asset statis
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
         if (cachedResponse) return cachedResponse;
@@ -78,7 +79,7 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
-// ✅ Push notification
+// push notification
 self.addEventListener('push', (event) => {
   let data = {};
   try {
@@ -98,24 +99,21 @@ self.addEventListener('push', (event) => {
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
-// ✅ Klik notifikasi
+// Klik notifikasi
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const url = event.notification?.data?.url || '/';
   event.waitUntil(clients.openWindow(url));
 });
 
-// ✅ Background Sync untuk upload cerita offline
+// Background Sync untuk upload cerita offline
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-stories') {
     event.waitUntil(syncPendingStories());
   }
 });
 
-// ======================================================
-// ✅ Fungsi sync offline → online (pakai clientId + notif sukses)
-// ======================================================
-// ✅ Sinkronisasi offline → online
+// sinkronisasi offline → online
 async function syncPendingStories() {
   const db = await openPendingDB();
   const tx = db.transaction('pendingStories', 'readonly');
@@ -132,13 +130,13 @@ async function syncPendingStories() {
 
   for (const story of stories) {
     try {
-      // 🧠 Pastikan data valid
+      // pastikan data valid
       if (!story?.description || !story?.token) {
         console.warn('⛔ Data story tidak lengkap, dilewati:', story);
         continue;
       }
 
-      // ✅ Bentuk FormData sesuai API Dicoding
+    
       const formData = new FormData();
       formData.append('description', story.description);
 
@@ -163,7 +161,7 @@ async function syncPendingStories() {
         console.log('✅ Cerita offline berhasil di-sync:', story.description);
         successCount++;
 
-        // 🔥 Pastikan benar-benar hapus dari pendingStories
+        
         const delTx = db.transaction('pendingStories', 'readwrite');
         const delStore = delTx.objectStore('pendingStories');
 
@@ -178,7 +176,7 @@ async function syncPendingStories() {
         val.clientId &&
         val.clientId === story.clientId
       ) {
-        cursor.delete(); // ✅ delete langsung
+        cursor.delete(); 
       }
       cursor.continue();
     }
@@ -187,17 +185,18 @@ async function syncPendingStories() {
         await new Promise((resolve) => (delTx.oncomplete = resolve));
       } else {
         const resText = await response.text();
-        console.warn('⚠️ Gagal sync story (HTTP):', response.status, resText);
+        console.warn('Gagal sync story (HTTP):', response.status, resText);
       }
     } catch (err) {
-      console.error('⚠️ Gagal sync story offline:', err);
+      console.error('Gagal sync story offline:', err.message);
+      console.log('Detail story:', story);
     }
   }
 
-  // ✅ Jika ada cerita yang berhasil di-sync, beri notifikasi
+  // kalo ada cerita yang berhasil di-sync, beri notifikasi
   if (successCount > 0) {
     self.registration.showNotification('Cerita Kita', {
-      body: `${successCount} cerita kamu berhasil diunggah ke server 🎉`,
+      body: `${successCount} cerita kamu berhasil diunggah ke server`,
       icon: '/images/logo.png',
       badge: '/images/favicon.png',
     });
@@ -208,16 +207,15 @@ async function syncPendingStories() {
 
 
 
-// ======================================================
-// ✅ Helper: Buka IndexedDB
-// ======================================================
+
 function openPendingDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('story-app-db', 2);
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
       if (!db.objectStoreNames.contains('pendingStories')) {
-        db.createObjectStore('pendingStories', { keyPath: 'id', autoIncrement: true });
+        db.createObjectStore('pendingStories', { keyPath: 'clientId' });
+
       }
     };
     request.onsuccess = (event) => resolve(event.target.result);
@@ -225,7 +223,7 @@ function openPendingDB() {
   });
 }
 
-// 🟢 Terima pesan dari client untuk manual sync
+
 self.addEventListener('message', (event) => {
   if (event.data?.action === 'manual-sync') {
     console.log('🔄 Manual sync dari client dijalankan...');

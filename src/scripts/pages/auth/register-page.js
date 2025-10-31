@@ -6,14 +6,53 @@ export default class RegisterPage {
       <section class="container auth-container">
         <h2>Daftar Akun</h2>
         <form id="register-form">
-          <input type="text" id="name" placeholder="Nama" required />
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Password (min 8 karakter)" required />
-          <button type="submit" class="submit-btn">Daftar</button>
+          <div class="form-group">
+            <label for="name">Nama:</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              placeholder="Masukkan nama lengkap kamu" 
+              required 
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="Masukkan email kamu" 
+              required 
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Kata Sandi:</label>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="Minimal 8 karakter" 
+              required 
+              aria-required="true"
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            class="submit-btn" 
+            aria-label="Buat akun baru">
+            Daftar
+          </button>
         </form>
+
         <div id="register-spinner" class="spinner hidden" aria-hidden="true"></div>
         <p>Sudah punya akun? <a href="#/login">Login di sini</a></p>
-        <p id="register-message"></p>
+        <p id="register-message" role="alert"></p>
       </section>
     `;
   }
@@ -29,13 +68,11 @@ export default class RegisterPage {
       const email = document.querySelector('#email').value;
       const password = document.querySelector('#password').value;
 
-      // tampilkan spinner
       spinner.classList.remove('hidden');
       messageEl.textContent = '';
 
       const result = await registerUser({ name, email, password });
 
-      // sembunyikan spinner setelah selesai
       spinner.classList.add('hidden');
 
       if (!result.error) {
