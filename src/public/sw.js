@@ -145,9 +145,9 @@ async function syncPendingStories() {
       }
 
       if (story.lat !== undefined && story.lon !== undefined) {
-        formData.append('lat', story.lat);
-        formData.append('lon', story.lon);
-      }
+  formData.append('lat', Number(story.lat));
+  formData.append('lon', Number(story.lon));
+}
 
       const response = await fetch(`${API_BASE_URL}/stories`, {
         method: 'POST',
@@ -230,3 +230,4 @@ self.addEventListener('message', (event) => {
     event.waitUntil(syncPendingStories());
   }
 });
+
