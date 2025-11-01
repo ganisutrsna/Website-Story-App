@@ -5,6 +5,7 @@ import AddPage from '../pages/add/add-page';
 import LoginPage from '../pages/auth/login-page';
 import RegisterPage from '../pages/auth/register-page';
 import PendingPage from '../pages/pending/pending-page';
+import FavoritePage from '../pages/favorite/favorite-page';
 
 const routes = {
   '/': HomePage,
@@ -15,6 +16,7 @@ const routes = {
   '/detail/:id': DetailPage,
   '/add': AddPage,
   '/pending': PendingPage,
+  '/favorite': FavoritePage,
 };
 
 export default routes;

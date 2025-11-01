@@ -25,6 +25,9 @@ const HomeView = {
           <h3>${story.name}</h3>
           <p>${story.description || '(tidak ada deskripsi)'}</p>
           <small class="story-date">${date}</small>
+          <div class="story-actions">
+            <button class="fav-btn" data-id="${story.id}">Tambah Favorit</button>
+          </div>    
         </article>
       `;
         }).join('');

@@ -1,5 +1,8 @@
 //import css
 import '../styles/styles.css';
+import '../styles/favorite.css';
+import '../styles/auth.css';
+
 
 
 import App from './pages/app';

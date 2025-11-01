@@ -230,4 +230,3 @@ self.addEventListener('message', (event) => {
     event.waitUntil(syncPendingStories());
   }
 });
-

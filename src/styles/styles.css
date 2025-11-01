@@ -666,6 +666,43 @@ input[type="file"] {
   font-size: 14px;
 }
 
+.story-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fav-btn {
+  background-color: #44b3e3; /* Warna merah muda */
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* Jarak jika nanti ada icon */
+}
+
+.fav-btn:hover {
+  background-color: #3686a8;
+  transform: scale(1.05); /* Efek membesar sedikit */
+}
+
+.fav-btn:active {
+  transform: scale(0.95); /* Efek saat ditekan */
+}
+
+.fav-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
 
 
 .main-footer {
