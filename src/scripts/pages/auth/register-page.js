@@ -32,14 +32,17 @@ export default class RegisterPage {
 
           <div class="form-group">
             <label for="password">Kata Sandi:</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              placeholder="Minimal 8 karakter" 
-              required 
-              aria-required="true"
-            />
+            <div class="input-icon-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Minimal 8 karakter" 
+                required 
+                aria-required="true"
+              />
+              <i id="toggleRegisterPassword" class="fa-solid fa-eye"></i>
+            </div>
           </div>
 
           <button 
@@ -61,6 +64,16 @@ export default class RegisterPage {
     const form = document.querySelector('#register-form');
     const messageEl = document.querySelector('#register-message');
     const spinner = document.querySelector('#register-spinner');
+    const togglePassword = document.querySelector('#toggleRegisterPassword');
+    const passwordInput = document.querySelector('#password');
+
+    // 👁️ Toggle show/hide password
+    togglePassword.addEventListener('click', () => {
+      const isHidden = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
+      togglePassword.classList.toggle('fa-eye');
+      togglePassword.classList.toggle('fa-eye-slash');
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

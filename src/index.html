@@ -7,11 +7,10 @@
   <link rel="shortcut icon" href="/images/favicon.png" />
   <title>Cerita Kita</title>
 
-  <!-- Manifest -->
-  <link rel="manifest" href="/manifest.json" />
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -20,7 +19,7 @@
   <link rel="stylesheet" href="/styles/styles.css" />
 </head>
 
-<body>
+<body style="font-family: 'Poppins', sans-serif;">
 
   <a href="#mainContent" class="skip-to-content">Lewati ke konten utama</a>
 
@@ -29,22 +28,24 @@
       <a class="brand-name" href="#/" aria-label="Beranda Aplikasi Cerita Kita">
         <i class="fa-solid fa-book-open-reader"></i> Cerita Kita
       </a>
+      
 
       <nav id="navigation-drawer" class="navigation-drawer" aria-label="Navigasi utama">
         <ul id="nav-list" class="nav-list">
           <li><a href="#/" aria-label="Menu Beranda"><i class="fa-solid fa-house"></i> Beranda</a></li>
+          <li><a href="#/favorite" aria-label="Menu Cerita Favorit"><i class="fa-solid fa-heart"></i> Favorit</a></li>
           <li><a href="#/about" aria-label="Menu Tentang"><i class="fa-solid fa-circle-info"></i> Tentang</a></li>
           <li><a href="#/login" aria-label="Menu Login"><i class="fa-solid fa-user"></i> Login</a></li>
-          <li><a href="#/pending" aria-label="Menu Cerita Offline">Cerita Offline</a></li>
-            <li><a href="#/favorite" aria-label="Menu Cerita Favorit"><i class="fa-solid fa-heart"></i> Favorit</a></li>
 
+          <li><a href="#/pending" aria-label="Menu Cerita Offline">Cerita Offline</a></li>
           <li>
             <button id="logoutBtn" class="btn-secondary" style="display:none;" aria-label="Keluar dari akun">
               <i class="fa-solid fa-right-from-bracket"></i> Logout
             </button>
-            <button id="notifToggleBtn" class="notif-btn">🔔 Aktifkan Notifikasi</button>
+            <button id="notifToggleBtn" class="notif-btn">
+  <i class="fa-regular fa-bell"></i> Aktifkan Notifikasi
+</button>
 
-            
           </li>
         </ul>
       </nav>
@@ -60,6 +61,37 @@
   <footer class="main-footer">
     <p>&copy; 2025 Cerita Kita. Semua Hak Dilindungi.</p>
   </footer>
+
+  <script>
+  function updateNavVisibility() {
+    const hiddenRoutes = ['#/login', '#/register'];
+    const currentHash = window.location.hash;
+
+    // Cari menu di dalam <nav>, bukan di seluruh dokumen
+    const nav = document.querySelector('nav ul.nav-list');
+
+    if (!nav) return;
+
+    const beranda = nav.querySelector('a[href="#/"]');
+    const favorit = nav.querySelector('a[href="#/favorite"]');
+    const offline = nav.querySelector('a[href="#/pending"]');
+    const about = nav.querySelector('a[href="#/about"]');
+    const notif = document.querySelector('#notifToggleBtn');
+
+    const hideMenu = hiddenRoutes.includes(currentHash);
+
+    // Sembunyikan hanya menu tertentu, bukan logo
+    if (beranda) beranda.parentElement.style.display = hideMenu ? 'none' : 'inline-block';
+    if (favorit) favorit.parentElement.style.display = hideMenu ? 'none' : 'inline-block';
+    if (offline) offline.parentElement.style.display = hideMenu ? 'none' : 'inline-block';
+    if (about) about.parentElement.style.display = hideMenu ? 'none' : 'inline-block';
+    if (notif) notif.style.display = hideMenu ? 'none' : '';
+  }
+
+  window.addEventListener('DOMContentLoaded', updateNavVisibility);
+  window.addEventListener('hashchange', updateNavVisibility);
+</script>
+
 </body>
 
 </html>

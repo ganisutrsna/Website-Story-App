@@ -152,9 +152,7 @@ class App {
 
 export default App;
 
-// =============================================================
-// SKIP TO CONTENT
-// =============================================================
+// skip to content
 document.addEventListener('DOMContentLoaded', () => {
   const skipLink = document.querySelector('.skip-to-content');
   const mainContent = document.querySelector('#mainContent');
@@ -167,9 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// =============================================================
+
 // SERVICE WORKER & PUSH NOTIFICATION SETUP
-// =============================================================
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   window.addEventListener('load', async () => {
     try {
@@ -208,9 +205,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// =============================================================
+
 // PUSH NOTIFICATION FUNCTIONS
-// =============================================================
 async function subscribeUserToPush(registration) {
   const vapidPublicKey = 'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx8biyPi_E-1fSGABK_Qs_GlvPoJJqxbk';
   const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
@@ -261,9 +257,8 @@ async function sendSubscriptionToServer(subscription) {
   }
 }
 
-// =============================================================
+
 // TOGGLE NOTIFICATION BUTTON
-// =============================================================
 const notifToggleBtn = document.getElementById('notifToggleBtn');
 
 if (notifToggleBtn) {
@@ -319,9 +314,16 @@ if (notifToggleBtn) {
 function updateNotifButton(isActive) {
   const btn = document.getElementById('notifToggleBtn');
   if (!btn) return;
-  btn.textContent = isActive ? '🔕 Nonaktifkan Notifikasi' : '🔔 Aktifkan Notifikasi';
-  btn.classList.toggle('active', isActive);
+
+  // Pilihan ikon + teks
+  const iconClass = isActive ? 'fa-solid fa-bell-slash' : 'fa-regular fa-bell';
+  const label = isActive ? 'Nonaktifkan Notifikasi' : 'Aktifkan Notifikasi';
+
+  // Update UI tombol
+  btn.innerHTML = `<i class="${iconClass}"></i> ${label}`;
+  btn.classList.toggle('active', isActive); // tambah / hapus warna danger
 }
+
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);

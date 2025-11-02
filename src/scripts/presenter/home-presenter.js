@@ -147,38 +147,31 @@ const HomePresenter = {
   },
 
   _setupOnlineOfflineIndicator() {
-    let indicator = document.querySelector('#networkStatus');
-    if (!indicator) {
-      indicator = document.createElement('div');
-      indicator.id = 'networkStatus';
-      Object.assign(indicator.style, {
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        padding: '8px 14px',
-        borderRadius: '8px',
-        color: 'white',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        zIndex: '1000',
-      });
-      document.body.appendChild(indicator);
+  let indicator = document.querySelector('#networkStatus');
+  if (!indicator) {
+    indicator = document.createElement('div');
+    indicator.id = 'networkStatus';
+    indicator.className = 'network-status';
+    document.body.appendChild(indicator);
+  }
+
+  const update = () => {
+    if (navigator.onLine) {
+      indicator.innerHTML = `<i class="fa-solid fa-circle-check"></i> Online`;
+      indicator.classList.remove('offline');
+      indicator.classList.add('online');
+    } else {
+      indicator.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Offline`;
+      indicator.classList.remove('online');
+      indicator.classList.add('offline');
     }
+  };
 
-    const update = () => {
-      if (navigator.onLine) {
-        indicator.textContent = '🟢 Online';
-        indicator.style.background = 'green';
-      } else {
-        indicator.textContent = '🔴 Offline';
-        indicator.style.background = 'crimson';
-      }
-    };
+  window.addEventListener('online', update);
+  window.addEventListener('offline', update);
+  update();
+},
 
-    window.addEventListener('online', update);
-    window.addEventListener('offline', update);
-    update();
-  },
 };
 
 export default HomePresenter;

@@ -20,14 +20,17 @@ export default class LoginPage {
 
           <div class="form-group">
             <label for="password">Kata Sandi:</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              placeholder="Masukkan kata sandi kamu" 
-              required 
-              aria-required="true"
-            />
+            <div class="input-icon-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Masukkan kata sandi kamu" 
+                required 
+                aria-required="true"
+              />
+              <i id="togglePassword" class="fa-solid fa-eye"></i>
+            </div>
           </div>
 
           <button 
@@ -49,6 +52,16 @@ export default class LoginPage {
     const form = document.querySelector('#login-form');
     const messageEl = document.querySelector('#login-message');
     const spinner = document.querySelector('#login-spinner');
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#password');
+
+    // 👁️ Toggle show/hide password
+    togglePassword.addEventListener('click', () => {
+      const isHidden = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
+      togglePassword.classList.toggle('fa-eye');
+      togglePassword.classList.toggle('fa-eye-slash');
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

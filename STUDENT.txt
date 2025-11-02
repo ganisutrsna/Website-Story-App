@@ -1,4 +1,4 @@
-APP_URL netlify= https://webstoryappkita.netlify.app/
+APP_URL netlify= https://websitestoryapp.netlify.app/
 MAP_SERVICE_API_KEY=<api_key>
 
 == untuk akses aplikasi ==

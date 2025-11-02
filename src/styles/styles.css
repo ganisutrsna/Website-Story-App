@@ -1,23 +1,96 @@
+/*UPDATEE
+   styles.css - Clean Light Modern (Poppins, Biru, Shadow Halus)
+   Updated to preserve original selectors and enhance styling
+   Includes Leaflet map styling */
 
+/* -------------------------
+   0. IMPORTS & ROOT VARS
+--------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+:root {
+  --font-main: 'Poppins', sans-serif;
+
+  /* Palette (Clean Light Modern) */
+  --primary: #3B82F6;
+  /* biru */
+  --primary-600: #2563EB;
+  --primary-400: #60A5FA;
+  --accent: #FF6B6B;
+  /* coral accent */
+  --bg: #F8FAFC;
+  /* very light */
+  --card: #FFFFFF;
+  --muted: #6B7280;
+  /* gray-500 */
+  --text: #111827;
+  /* gray-900 */
+  --subtext: #4B5563;
+  /* gray-700 */
+  --danger: #E11D48;
+  --success: #10B981;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 4px 10px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+  --transition: 200ms cubic-bezier(.2, .8, .2, 1);
+}
+
+/* reset global*/
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-main);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+/* keep compatibility with original rules */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Remove conflicting fallback fonts - use Poppins */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: var(--font-main);
 }
 
-.container {
-  padding-inline: 32px;
-  margin-inline: auto;
-  max-width: 1300px;
-}
-
+/* header dan nav*/
 header {
-  background-color: lightskyblue;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .main-header {
@@ -31,23 +104,30 @@ header {
 
 .brand-name {
   font-size: 1.125rem;
-  font-weight: bold;
+  font-weight: 700;
   text-decoration: none;
-  color: #333;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
+/* Navigation drawer (mobile overlay) */
 .navigation-drawer {
+  /* preserve original behaviours but modernize visuals */
   min-height: 100vh;
-  width: 200px;
-  padding: 20px 10px;
-  background-color: #fff;
+  width: 260px;
+  padding: 20px 14px;
+  background-color: var(--card);
   position: fixed;
   inset-block-start: 0;
   inset-inline-start: 0;
-  box-shadow: 0 0 4px 2px #00000033;
-  transform: translateX(-100%);
-  transition: transform 350ms;
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
+  transform: translateX(-110%);
+  transition: transform 350ms var(--transition);
   z-index: 9999;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .navigation-drawer.open {
@@ -57,59 +137,66 @@ header {
 .drawer-button {
   padding: 8px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   display: inline-block;
   background-color: transparent;
-  font-weight: bold;
-  font-size: 28px;
-  color: #141e16;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--text);
   cursor: pointer;
 }
 
-/* style navigasi baru */
+/* nav list modern */
 .nav-list {
   display: flex;
   gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
+  align-items: center;
 }
 
+/* keep vertical layout for mobile but horizontal on desktop via media queries */
 .nav-list li a {
   text-decoration: none;
-  color: #333;
+  color: var(--subtext);
   font-weight: 500;
-  transition: color 0.2s ease, border-bottom 0.2s ease;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: color 0.2s ease, background 0.2s ease, transform var(--transition);
 }
 
 .nav-list li a:hover,
 .nav-list li a:focus {
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.08);
+  transform: translateY(-2px);
 }
 
+/* logout link */
 .logout-link {
-  color: #e53935 !important;
+  color: var(--danger) !important;
   font-weight: 600;
 }
 
 .logout-link:hover {
-  color: #b71c1c !important;
-  border-bottom: 2px solid #b71c1c;
+  color: darken(var(--danger), 10%) !important;
 }
 
-/* MAIN */
+/* main content*/
 .main-content {
-  padding-block: 20px;
+  padding-block: 24px;
 }
 
-/* Write your styles more here */
+/* page title */
 .page-title {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 2rem;
+  color: var(--text);
 }
 
+/* grid dan card*/
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -118,18 +205,19 @@ header {
 }
 
 .movie-card {
-  background: #1e1e1e;
+  background: #0f1724;
+  /* keep dark card for movie posters as original */
   border-radius: 12px;
   overflow: hidden;
   text-align: center;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.28);
 }
 
 .movie-poster {
@@ -141,18 +229,48 @@ header {
 .movie-title {
   margin: 0.5rem 0;
   font-size: 1.1rem;
+  color: #fff;
 }
 
 .movie-rating {
   color: #ffcc00;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 0.8rem;
 }
 
+/* stories grid/cards (light) */
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.story-card {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+  transition: transform 0.2s ease, box-shadow var(--transition);
+  color: var(--text);
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.story-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+/* about page */
 .about-page {
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.8;
+  color: var(--subtext);
 }
 
 .about-description {
@@ -160,28 +278,25 @@ header {
   margin-bottom: 1.5rem;
 }
 
-.about-features {
-  list-style: none;
-  padding: 0;
-}
-
+/* about features - adapt original dark background to light card */
 .about-features li {
-  background: #1e1e1e;
-  color: #fff;
-  padding: 0.8rem 1rem;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  color: var(--text);
+  padding: 0.9rem 1rem;
   margin-bottom: 0.8rem;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(2, 6, 23, 0.04);
 }
 
+/* skiptocontent*/
 .skip-to-content {
   position: absolute;
   top: -40px;
   left: 0;
-  background: #005eff;
+  background: var(--primary);
   color: #fff;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
   z-index: 1000;
   transition: top 0.3s;
   text-decoration: none;
@@ -191,28 +306,576 @@ header {
   top: 8px;
 }
 
+/* skip-link fallback */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #222;
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 100;
+  border-radius: 6px;
+  transition: top 0.3s;
+}
 
+.skip-link:focus {
+  top: 10px;
+}
+
+/* footer*/
 .main-footer {
   text-align: center;
   padding: 1rem 0;
   margin-top: 2rem;
-  background-color: #1e1e1e;
-  color: #fff;
+  background: var(--card);
+  color: var(--subtext);
   font-size: 0.9rem;
+  box-shadow: 0 -2px 8px rgba(2, 6, 23, 0.03);
 }
 
+/* form & input*/
+.form-group label {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--subtext);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e6e9ef;
+  background: #fff;
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.12);
+}
+
+/* textarea and file support (from original) */
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+
+/* buttons*/
+.btn-submit,
+.submit-btn,
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-submit:hover,
+.submit-btn:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(59, 130, 246, 0.12);
+  opacity: 0.98;
+}
+
+.btn-secondary {
+  background-color: #fff;
+  color: var(--primary);
+  border: 1px solid #e6eefc;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.06), rgba(255, 255, 255, 0));
+  transform: translateY(-2px);
+}
+
+/* cancel btn */
+.cancel-btn {
+  background: #f3f4f6;
+  color: var(--subtext);
+  margin-left: 8px;
+}
+
+/* fav button */
+.fav-btn {
+  background-color: #44b3e3;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform var(--transition);
+}
+
+.fav-btn:hover {
+  transform: scale(1.03);
+  background-color: #3aa0cc;
+}
+
+/* Tombol Notifikasi */
+.notif-btn {
+  display: inline-flex;
+  /* Biar ikon dan teks sejajar */
+  align-items: center;
+  gap: 8px;
+  /* Jarak antara ikon dan teks */
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.notif-btn i {
+  font-size: 1rem;
+  /* Samakan ukuran ikon */
+}
+
+/* Hover effect */
+.notif-btn:hover {
+  background-color: var(--primary-dark, #3b66c3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Jika aktif / mode "nonaktifkan notifikasi" */
+.notif-btn.active {
+  background-color: var(--danger);
+}
+
+.notif-btn.active:hover {
+  background-color: var(--danger-dark, #d23a3a);
+}
+
+
+/* logout button (mobile) */
+#logoutBtn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* feedback alert*/
+.feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.feedback.success {
+  background: #ecfdf5;
+  color: var(--success);
+  border: 1px solid #bbf7d0;
+}
+
+.feedback.error {
+  background: #fff1f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.feedback.loading {
+  background: #fff7ed;
+  color: #92400e;
+  border: 1px solid #ffe6c2;
+}
+
+/* -------------------------
+   10. MISC COMPONENTS
+--------------------------*/
+.location-section {
+  margin-top: 1rem;
+  background: linear-gradient(180deg, #fff, #fbfdff);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #e6f0ff;
+}
+
+.map-container {
+  width: 100%;
+  height: 420px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+/* map hover */
+.map-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+}
+
+/* add-story form */
+.add-story-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-story-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* camera */
+.camera-section {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Area tombol kamera */
+.camera-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Tombol umum kamera */
+#openCameraBtn,
+#captureBtn,
+#cancelCameraBtn {
+  background-color: var(--primary, #3b82f6);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+#openCameraBtn:hover,
+#captureBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.25);
+}
+
+/* Tombol batal / tutup kamera dibuat warna abu merah */
+#cancelCameraBtn {
+  background-color: #e5e5e5;
+  color: #374151;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+#cancelCameraBtn:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+/* Video kamera styling */
+#cameraStream {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-top: 12px;
+}
+
+
+/* spinner reused */
+.loading-spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* spinner keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* leaflet*/
+/* Ensure Leaflet base CSS is loaded in HTML; these overrides style the controls and popups */
+.leaflet-container {
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.06);
+  overflow: hidden;
+  z-index: 1;
+
+}
+
+/* Popup */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.07);
+}
+
+.leaflet-popup-content {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+/* Popup tip (arrow) */
+.leaflet-popup-tip-container {
+  display: none;
+}
+
+/* hide default arrow for cleaner look */
+
+/* Zoom control */
+.leaflet-control-zoom,
+.leaflet-bar {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a,
+.leaflet-bar a {
+  color: var(--subtext);
+  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  display: inline-block;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* attribution style */
+.leaflet-control-attribution {
+  font-size: 12px;
+  color: var(--muted);
+  background: transparent;
+}
+
+/* marker icon adjustments (if using default marker, you can use filters) */
+.leaflet-marker-icon {
+  filter: drop-shadow(0 6px 18px rgba(2, 6, 23, 0.08));
+  transform-origin: center bottom;
+}
+
+/* responsive*/
+@media (max-width: 1024px) {
+  .container {
+    padding-inline: 24px;
+  }
+
+  .main-header {
+    padding-block: 12px;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+}
+
+/* mobile specific */
+@media (max-width: 350px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .main-header {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .movies-grid,
+  .stories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .story-card,
+  .movie-card {
+    margin-inline: auto;
+    width: 90%;
+  }
+
+  /* make nav-list vertical and hidden by default -> use .open to show */
+  .nav-list {
+    flex-direction: column;
+    gap: 8px;
+    display: none;
+    background: var(--card);
+    position: absolute;
+    top: 72px;
+    right: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-list.open {
+    display: flex;
+  }
+
+  .drawer-button {
+    display: inline-block;
+  }
+
+  .navigation-drawer {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .map-container {
+    height: 250px;
+  }
+}
+
+/* desktop layout tweaks */
+@media (min-width: 1025px) {
+  .navigation-drawer {
+    min-height: auto;
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+    flex-direction: row;
+    justify-content: space-between;
+    position: static;
+    box-shadow: none;
+    transform: translateX(0);
+  }
+
+  .nav-list {
+    flex-direction: row;
+    display: flex;
+  }
+
+  .drawer-button {
+    display: none;
+  }
+}
+
+/* lama*/
+/* Many classes from original file exist below; ensure modern look without deleting original rules */
+
+/* old .btn-add */
+.btn-add {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 16px;
+  background-color: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.btn-add:hover {
+  background-color: var(--primary-600);
+  transform: translateY(-2px);
+}
+
+/* .status-message */
+.status-message {
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--subtext);
+}
+
+.status-message.success {
+  color: var(--success);
+}
+
+.status-message.error {
+  color: var(--danger);
+}
+
+.status-message.loading {
+  color: #f59e0b;
+}
+
+/* .spinner */
+.spinner {
+  margin: 15px auto;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #60a5fa;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 0.8s linear infinite;
+}
+
+/* .hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* small helpers */
+.text-muted {
+  color: var(--subtext);
+  font-size: 0.95rem;
+}
+
+.center {
+  text-align: center;
+}
+
+/* animat*/
 .fade-in {
-  animation: fadeIn 0.3s ease-in forwards;
+  animation: fadeIn 0.35s ease-in forwards;
 }
 
 .fade-out {
-  animation: fadeOut 0.2s ease-out forwards;
+  animation: fadeOut 0.25s ease-out forwards;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(6px);
   }
 
   to {
@@ -229,569 +892,152 @@ header {
 
   to {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(6px);
   }
 }
 
-.map-container {
-  width: 100%;
-  height: 400px;
-  margin-bottom: 2rem;
-  border-radius: 12px;
-  overflow: hidden;
-}
 
-.stories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.story-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  transition: transform 0.2s ease;
-}
-
-.story-card:hover {
-  transform: translateY(-5px);
-}
-
-.story-image {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
-}
-
-.add-story-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-group label {
-  font-weight: bold;
-}
-
-textarea,
-input[type="file"] {
-  width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.map-container {
-  height: 300px;
-  margin-top: 1rem;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.hidden {
-  display: none;
-}
-
-.btn-submit {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.status-message {
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
-.status-message.success {
-  color: green;
-}
-
-.status-message.error {
-  color: red;
-}
-
-.status-message.loading {
-  color: orange;
-}
-
-
-.add-story-page {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.add-story-form label {
-  font-weight: bold;
-  margin-bottom: 4px;
-  color: #333;
-}
-
-.add-story-form textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.add-story-form input[type="file"] {
-  border: 1px dashed #aaa;
-  padding: 8px;
-  background: #f9f9f9;
-}
-
-.add-story-form input[type="checkbox"] {
-  margin-right: 6px;
-}
-
-.submit-btn {
-  background-color: #1e88e5; 
-  color: #fff;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-.submit-btn:hover {
-  background-color: #1565c0; 
-  transform: translateY(-2px);
-}
-
-.submit-btn:active {
-  background-color: #0d47a1; 
-  transform: translateY(0);
-}
-
-
-.feedback {
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 600;
-  animation: fadeIn 0.3s ease-in;
-}
-
-.feedback.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.feedback.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.feedback.loading {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
-}
-
-.location-section {
-  margin-top: 1rem;
-  background: #f5f9ff;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid #cce5ff;
-}
-
-.map-container {
-  height: 300px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.btn-add {
-  display: inline-block;
-  margin: 10px 0;
-  padding: 10px 16px;
-  background-color: #0078ff;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.btn-add:hover {
-  background-color: #005dc0;
-}
-
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: #222;
-  color: #fff;
-  padding: 8px 16px;
-  z-index: 100;
-  border-radius: 4px;
-  transition: top 0.3s;
-}
-
-.skip-link:focus {
-  top: 10px;
-}
-
+/* preserve original .btn-secondary heavier styles but make consistent */
 .btn-secondary {
-  background-color: #878787;
-  color: white;
+  background-color: #F3F4F6;
+  color: var(--text);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-}
-.btn-secondary:hover {
-  background-color: #5a5a5a;
-}
-
-.cancel-btn {
-  background-color: #999;
-  color: #fff;
-  margin-left: 8px;
-}
-
-.cancel-btn:hover {
-  background-color: #777;
-}
-
-.camera-actions {
-  display: flex;
-  gap: 10px; 
-  margin-top: 8px;
-}
-
-.btn-secondary {
-  flex: 1; 
-  text-align: center;
-}
-
-/* tomboll kamera */
-.camera-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px; 
-  margin-top: 10px;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  font-size: 0.95rem;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.25s ease-in-out;
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
-  transform: scale(1.03);
+  background-color: #E6EEF9;
+  color: var(--primary-600);
+  transform: translateY(-2px);
 }
 
-.btn-secondary:active {
-  transform: scale(0.97);
-}
-
-#cameraStream {
-  border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
-  transition: opacity 0.3s ease;
-}
-
-#cameraStream[style*="display: none"] {
-  opacity: 0;
-}
-
-/* buat tombol Submit --- */
-.submit-btn {
-  background-color: #0d6efd;
-  color: #fff;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  margin-top: 12px;
-}
-
-.submit-btn:hover {
-  background-color: #0b5ed7;
-  transform: scale(1.03);
-}
-
-/* --- Map Container --- */
-.map-container {
-  height: 250px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 12px;
-  transition: box-shadow 0.3s ease;
-}
-
-.map-container:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-}
-
-/* --- Tombol Loading --- */
-.submit-btn {
-  background: #2196f3;
-  color: #fff;
-  font-size: 1rem;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s ease, transform 0.1s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.submit-btn:hover {
-  background: #1976d2;
-  transform: scale(1.02);
-}
-
-/* Spinner kecil di dalam tombol */
-.loading-spinner {
-  width: 18px;
-  height: 18px;
-  border: 3px solid #fff;
-  border-top-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 8px;
-  animation: spin 0.8s linear infinite;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.submit-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.spinner {
-  margin: 15px auto;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #5795d6;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  animation: spin 0.8s linear infinite;
-}
-
-.hidden {
-  display: none;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* --- PERBAIKAN POSISI LOGOUT --- */
-.nav-list {
-  flex-direction: column; /* pastikan vertikal di mode mobile */
-}
-
-.nav-list li {
-  display: flex;
-  align-items: center;
-}
-
-#logoutBtn {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  color: #e53935;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.2s ease;
-}
-
-#logoutBtn:hover {
-  color: #b71c1c;
-}
-
-.notif-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 12px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.notif-btn.active {
-  background-color: #dc3545; /* warna merah kalau aktif (bisa kamu ganti) */
-}
-
-
-.search-input {
-  width: 100%;
-  padding: 10px 12px;
-  margin: 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.story-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-start;
-}
-
+/* keep original .fav-btn colors but slightly adjusted */
+/* Tombol default (belum disimpan) */
 .fav-btn {
-  background-color: #44b3e3; /* Warna merah muda */
-  color: white;
+  background-color: #44b3e3;
+  color: #fff;
   border: none;
   padding: 8px 14px;
   border-radius: 8px;
-  font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
   display: inline-flex;
+  gap: 6px;
   align-items: center;
-  gap: 6px; /* Jarak jika nanti ada icon */
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .fav-btn:hover {
   background-color: #3686a8;
-  transform: scale(1.05); /* Efek membesar sedikit */
+  transform: scale(1.03);
 }
 
-.fav-btn:active {
-  transform: scale(0.95); /* Efek saat ditekan */
-}
-
+/* ✅ Tombol saat sudah disimpan / disabled */
+.fav-btn.saved,
 .fav-btn:disabled {
-  background-color: #ccc;
-  color: #666;
+  background-color: #b8b8b8 !important;
+  /* abu-abu */
+  color: #f5f5f5 !important;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Hilangkan efek hover jika sudah disimpan */
+.fav-btn.saved:hover {
+  background-color: #b8b8b8 !important;
   transform: none;
 }
 
 
+/* .about-features kept earlier */
 
-.main-footer {
-  text-align: center;
-  padding: 1rem 0;
-  margin-top: 2rem;
-  background-color: #1e1e1e;
+/* Status indikator Online/Offline */
+.network-status {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
   color: #fff;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
+/* Online */
+.network-status.online {
+  background: var(--success, #28a745);
+}
+
+/* Offline */
+.network-status.offline {
+  background: var(--danger, #dc3545);
+}
+
+/* Font Awesome icon agar rapi */
+.network-status i {
+  font-size: 1rem;
+}
+
+/* show/hide pass */
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+  /* ruang untuk icon */
+}
+
+.input-icon-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.input-icon-wrapper i:hover {
+  color: #333;
+}
+
+/* Pastikan tombol login tetap muncul di header pada mobile */
 @media (max-width: 480px) {
-  .page-title {
-    font-size: 1.5rem;
+  .login-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
   }
 
-  .main-header {
-    flex-direction: row;
-    gap: 15px;
+  .login-btn:hover {
+    background: var(--primary-600);
+    transform: translateY(-2px);
   }
 
-  .movies-grid,
-  .stories-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .story-card, .movie-card {
-    margin-inline: auto;
-    width: 90%;
-  }
-
-  .map-container {
-    height: 250px;
+  /* jika login ada di dalam nav-list, tapi ingin tampil di luar drawer */
+  header .login-btn {
+    margin-left: auto;
   }
 }
 
-/* tablet (481px – 1024px) */
-@media (min-width: 481px) and (max-width: 1024px) {
-  .movies-grid,
-  .stories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .container {
-    padding-inline: 24px;
-  }
-
-  .main-header {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .map-container {
-    height: 350px;
-  }
-}
-
-/* desktop/pcc (≥ 1025px) */
-@media (min-width: 1025px) {
-  .navigation-drawer {
-    min-height: auto;
-    width: auto;
-    padding: 0;
-    background-color: transparent;
-    flex-direction: row;
-    justify-content: space-between;
-    position: static;
-    box-shadow: none;
-    transform: translateX(0);
-  }
-
-  .nav-list {
-    flex-direction: row;
-  }
-
-  .nav-list li a {
-    display: inline-block;
-  }
-
-  .drawer-button {
-    display: none;
-  }
-
-  .movies-grid,
-  .stories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-
-  .container {
-    padding-inline: 32px;
-  }
-}

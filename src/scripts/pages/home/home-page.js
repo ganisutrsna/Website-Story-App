@@ -10,7 +10,7 @@ export default class HomePage {
 
         <!-- 🔍 Input pencarian -->
         <input 
-          type="text" 
+          type="text"   
           id="searchInput" 
           placeholder="Cari cerita berdasarkan nama atau deskripsi..." 
           aria-label="Cari cerita"

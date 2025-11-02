@@ -1,4 +1,6 @@
 import Idb from '../../utils/idb';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 export default class FavoritePage {
   async render() {
@@ -15,17 +17,13 @@ export default class FavoritePage {
     const listContainer = document.querySelector('#favorite-list');
 
     try {
-      // Ambil semua data favorit dari IndexedDB
       const favorites = await Idb.getAllFavoriteStories();
 
       if (!favorites || !favorites.length) {
-        listContainer.innerHTML = `
-          <p>Kamu belum menambahkan cerita ke favorit.</p>
-        `;
+        listContainer.innerHTML = `<p>Kamu belum menambahkan cerita ke favorit.</p>`;
         return;
       }
 
-      // daftar cerita favorit
       listContainer.innerHTML = favorites
         .map(
           (story) => `
@@ -39,7 +37,6 @@ export default class FavoritePage {
             <h3>${story.name || '(Tanpa Judul)'}</h3>
             <p>${story.description || '-'}</p>
             <div class="fav-actions">
-              
               <button 
                 class="delete-btn" 
                 data-id="${story.id}" 
@@ -52,11 +49,24 @@ export default class FavoritePage {
         )
         .join('');
 
-      
       document.querySelectorAll('.delete-btn').forEach((btn) =>
         btn.addEventListener('click', async (e) => {
           const id = e.target.dataset.id;
-          if (!confirm('Hapus cerita ini dari favorit?')) return;
+
+          // 🔥 Ganti confirm() bawaan dengan SweetAlert2
+          const result = await Swal.fire({
+            title: 'Hapus cerita ini dari favorit?',
+            text: 'Kamu tidak bisa mengembalikan data ini setelah dihapus.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            reverseButtons: true,
+          });
+
+          if (!result.isConfirmed) return;
 
           try {
             await Idb.deleteFavoriteStory(id);
@@ -64,23 +74,29 @@ export default class FavoritePage {
             if (item) item.remove();
 
             if (!document.querySelectorAll('.favorite-item').length) {
-              listContainer.innerHTML = `
-                <p>Tidak ada cerita favorit lagi</p>
-              `;
+              listContainer.innerHTML = `<p>Tidak ada cerita favorit lagi</p>`;
             }
 
-            console.log('✅ Cerita dihapus dari favorit:', id);
+            await Swal.fire({
+              icon: 'success',
+              title: 'Dihapus!',
+              text: 'Cerita berhasil dihapus dari favorit.',
+              timer: 2000,
+              showConfirmButton: false,
+            });
           } catch (err) {
             console.error('❌ Gagal hapus cerita favorit:', err);
-            alert('Terjadi kesalahan saat menghapus cerita.');
+            await Swal.fire({
+              icon: 'error',
+              title: 'Terjadi Kesalahan',
+              text: 'Gagal menghapus cerita favorit.',
+            });
           }
         })
       );
     } catch (err) {
       console.error('❌ Gagal memuat daftar favorit:', err);
-      listContainer.innerHTML = `
-        <p>Gagal memuat cerita favorit. Silakan coba lagi nanti.</p>
-      `;
+      listContainer.innerHTML = `<p>Gagal memuat cerita favorit. Silakan coba lagi nanti.</p>`;
     }
   }
 }
